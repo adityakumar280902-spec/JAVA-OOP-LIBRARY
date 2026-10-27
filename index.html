@@ -1,0 +1,522 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Java OOP Code Library</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1020;--panel:#141c30;--line:#293550;--text:#edf2ff;--muted:#a2afc8;--blue:#8ab4ff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 system-ui,Arial,sans-serif}
+header{padding:30px 18px 22px;background:linear-gradient(135deg,#17284a,#10172b);border-bottom:1px solid var(--line)}
+.wrap{max-width:1050px;margin:auto;padding:0 16px}
+h1{margin:0;font-size:clamp(25px,5vw,38px)}
+header p,.muted{color:var(--muted)}
+header p{margin:8px 0 18px}
+input,select{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:12px;font:inherit;min-width:0}
+input{width:100%}
+select{width:100%}
+.controls{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+nav{display:flex;gap:8px;flex-wrap:wrap;padding:18px 0}
+nav button,.copy{cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--text);padding:9px 13px;border-radius:9px;font:inherit}
+nav button.active{background:#274475;border-color:#719fff}
+#count{color:var(--muted);margin:0 0 14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:14px;overflow:hidden}
+.cardtop{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:16px}
+h2{font-size:17px;margin:0 0 4px}
+.tag{font-size:12px;color:var(--blue)}
+.copy{flex-shrink:0}
+pre{margin:0;border-top:1px solid var(--line);padding:16px;overflow:auto;background:#090e1a;color:#e0e9ff;font:13px/1.65 ui-monospace,SFMono-Regular,Consolas,monospace;white-space:pre}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+footer{padding:30px 0;color:var(--muted);font-size:13px}
+@media(max-width:600px){.controls{grid-template-columns:1fr}.cardtop{padding:13px}pre{font-size:12px}.copy{padding:7px 9px}}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap">
+<h1>☕ Java OOP Code Library</h1>
+<p>BNMIT · Tasks 1–6 · Search, study and copy your Java programs.</p>
+<div class="controls">
+<input id="search" type="search" placeholder="Search code, topic or keyword..." aria-label="Search programs">
+<select id="sort" aria-label="Sort programs">
+<option value="default">Default order</option>
+<option value="az">Title A–Z</option>
+<option value="task">Task order</option>
+</select>
+</div>
+</div>
+</header>
+<main class="wrap">
+<nav id="filters" aria-label="Filter by task"></nav>
+<p id="count" aria-live="polite"></p>
+<div id="results"></div>
+</main>
+<footer class="wrap">Java OOP Code Library · Tasks 1–6 · Save this website to your bookmarks.</footer>
+<script>
+const programs = [
+{task:1,title:"1. Welcome message",tags:"basics welcome print output",code:`class Main {
+    public static void main(String[] args) {
+        System.out.println("Welcome to BNMIT");
+        System.out.println("I am first batch of Autonomous");
+    }
+}`},
+{task:1,title:"2. Five students' information",tags:"array students usn name branch sem loop",code:`class Main {
+    public static void main(String[] args) {
+        String[] usn = {"101", "102", "103", "104", "105"};
+        String[] name = {"A", "B", "C", "D", "E"};
+
+        for (int i = 0; i < 5; i++)
+            System.out.println(usn[i] + " " + name[i]
+                    + " AIML 3rd Sem");
+    }
+}`},
+{task:1,title:"3. Quadratic equation",tags:"math scanner roots discriminant square root",code:`import java.util.Scanner;
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        double a = sc.nextDouble(), b = sc.nextDouble();
+        double c = sc.nextDouble();
+        double d = b * b - 4 * a * c;
+
+        if (d >= 0) {
+            System.out.println((-b + Math.sqrt(d)) / (2 * a));
+            System.out.println((-b - Math.sqrt(d)) / (2 * a));
+        } else
+            System.out.println("No real roots");
+    }
+}`},
+{task:1,title:"4. Student class and object",tags:"class object usn student display",code:`class Students {
+    String usn = "101", name = "Rahul";
+    String branch = "AIML";
+    int sem = 3;
+
+    void display() {
+        System.out.println(usn + " " + name + " " + branch + " " + sem);
+    }
+
+    public static void main(String[] args) {
+        Students s = new Students();
+        s.display();
+    }
+}`},
+{task:2,title:"1. Area using method overloading",tags:"overloading area rectangle circle triangle methods",code:`class Main {
+    int area(int l, int b) {
+        return l * b;
+    }
+
+    double area(double r) {
+        return 3.14 * r * r;
+    }
+
+    double area(double b, double h) {
+        return 0.5 * b * h;
+    }
+
+    public static void main(String[] args) {
+        Main m = new Main();
+        System.out.println(m.area(4, 5));
+        System.out.println(m.area(3.0));
+        System.out.println(m.area(4.0, 6.0));
+    }
+}`},
+{task:2,title:"2. Vehicle and Car inheritance",tags:"inheritance encapsulation private getter setter vehicle car",code:`class Vehicle {
+    private String brand;
+
+    public void setBrand(String b) {
+        brand = b;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+}
+
+class Car extends Vehicle {
+    public static void main(String[] args) {
+        Car c = new Car();
+        c.setBrand("Toyota");
+        System.out.println(c.getBrand());
+    }
+}`},
+{task:2,title:"3. Dynamic polymorphism",tags:"polymorphism overriding shape circle rectangle",code:`class Shape {
+    void draw() {
+        System.out.println("Shape");
+    }
+}
+
+class Circle extends Shape {
+    void draw() {
+        System.out.println("Circle");
+    }
+}
+
+class Rectangle extends Shape {
+    void draw() {
+        System.out.println("Rectangle");
+    }
+
+    public static void main(String[] args) {
+        Shape s = new Circle();
+        s.draw();
+        s = new Rectangle();
+        s.draw();
+    }
+}`},
+{task:2,title:"4. Employee, Faculty and Professor",tags:"super inheritance employee faculty professor",code:`class Employee {
+    String name = "Rahul";
+}
+
+class Faculty extends Employee {
+    String subject = "Java";
+}
+
+class Professor extends Faculty {
+    void display() {
+        System.out.println(super.name);
+        System.out.println(super.subject);
+    }
+
+    public static void main(String[] args) {
+        new Professor().display();
+    }
+}`},
+{task:2,title:"5. Abstract Shape class",tags:"abstract class method rectangle area",code:`abstract class Shape {
+    int a, b;
+
+    abstract void printArea();
+}
+
+class Rectangle extends Shape {
+    void printArea() {
+        System.out.println(a * b);
+    }
+
+    public static void main(String[] args) {
+        Rectangle r = new Rectangle();
+        r.a = 5;
+        r.b = 4;
+        r.printArea();
+    }
+}`},
+{task:3,title:"1. Restaurant enum",tags:"enum restaurant scanner values valueOf",code:`import java.util.Scanner;
+
+class Main {
+    enum Restaurant {
+        A2B, DOMINOS, KFC
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        for (Restaurant r : Restaurant.values())
+            System.out.println(r);
+
+        System.out.println("Enter restaurant:");
+        System.out.println(Restaurant.valueOf(sc.next().toUpperCase()));
+    }
+}`},
+{task:3,title:"2. Extract vowels or non-vowels",tags:"string vowels consonants uppercase lowercase characters",code:`import java.util.Scanner;
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine();
+        int option = sc.nextInt(), c = sc.nextInt();
+        String result = "";
+
+        for (char ch : s.toCharArray()) {
+            boolean vowel = "aeiouAEIOU".indexOf(ch) >= 0;
+            if (Character.isLetter(ch) && (option == 1 ? vowel : !vowel))
+                result += ch;
+        }
+
+        System.out.println(c == 0 ? result.toLowerCase() : result.toUpperCase());
+    }
+}`},
+{task:3,title:"3. Find duplicate words",tags:"string hashmap map duplicates word frequency",code:`import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        String s = "java is easy and java is useful";
+        String[] words = s.split(" ");
+        HashMap<String, Integer> map = new HashMap<>();
+
+        for (String w : words)
+            map.put(w, map.getOrDefault(w, 0) + 1);
+
+        for (String w : map.keySet())
+            if (map.get(w) > 1)
+                System.out.println(w + ": " + map.get(w));
+    }
+}`},
+{task:3,title:"4. Replace substring using regex",tags:"regex string replaceAll digits pattern",code:`class Main {
+    public static void main(String[] args) {
+        String s = "abc123def456";
+        System.out.println(s.replaceAll("[0-9]+", "*"));
+    }
+}`},
+{task:4,title:"1. Range exception and square",tags:"exception try catch throw range square scanner",code:`import java.util.Scanner;
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        try {
+            if (n < 10 || n > 50)
+                throw new Exception("Out of range");
+            System.out.println(n * n);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+}`},
+{task:4,title:"2. Command-line division and exceptions",tags:"exception command line args parseInt arithmetic division zero",code:`class Main {
+    public static void main(String[] args) {
+        try {
+            if (args.length < 2)
+                throw new Exception("Enter two numbers");
+
+            int a = Integer.parseInt(args[0]);
+            int b = Integer.parseInt(args[1]);
+            System.out.println(a / b);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}`},
+{task:5,title:"1. Two threads sleeping for one second",tags:"thread multithreading sleep main user thread",code:`class Main {
+    public static void main(String[] args) {
+        Thread t = new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+                System.out.println("User Thread");
+            } catch (Exception e) {}
+        });
+
+        t.start();
+
+        try {
+            Thread.sleep(1000);
+            System.out.println("Main Thread");
+        } catch (Exception e) {}
+    }
+}`},
+{task:5,title:"2. Random number, square or cube",tags:"random number thread even odd square cube",code:`import java.util.Random;
+
+class Main {
+    public static void main(String[] args) {
+        Random r = new Random();
+
+        for (int i = 0; i < 5; i++) {
+            int n = r.nextInt(10) + 1;
+            System.out.println("Number: " + n);
+
+            if (n % 2 == 0)
+                new Thread(() -> System.out.println("Square: " + n * n)).start();
+            else
+                new Thread(() -> System.out.println("Cube: " + n * n * n)).start();
+
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {}
+        }
+    }
+}`},
+{task:5,title:"3. Print An and B at intervals",tags:"thread multithreading infinite loop sleep interval",code:`class Main {
+    public static void main(String[] args) {
+        Thread t1 = new Thread(() -> {
+            try {
+                while (true) {
+                    System.out.println("An");
+                    Thread.sleep(1000);
+                }
+            } catch (Exception e) {}
+        });
+
+        Thread t2 = new Thread(() -> {
+            try {
+                while (true) {
+                    System.out.println("B");
+                    Thread.sleep(3000);
+                }
+            } catch (Exception e) {}
+        });
+
+        t1.start();
+        t2.start();
+    }
+}`},
+{task:6,title:"1. ArrayList of colors",tags:"collection arraylist list add colors",code:`import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        ArrayList<String> colors = new ArrayList<>();
+        colors.add("Red");
+        colors.add("Blue");
+        colors.add("Green");
+        System.out.println(colors);
+    }
+}`},
+{task:6,title:"2. LinkedList from a specified position",tags:"collection linkedlist listiterator position",code:`import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        LinkedList<String> list = new LinkedList<>(
+                Arrays.asList("Red", "Blue", "Green", "Yellow"));
+
+        ListIterator<String> it = list.listIterator(2);
+        while (it.hasNext())
+            System.out.println(it.next());
+    }
+}`},
+{task:6,title:"3. Append elements to HashSet",tags:"collection hashset set add colors",code:`import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        HashSet<String> set = new HashSet<>();
+        set.add("Red");
+        set.add("Blue");
+        set.add("Green");
+        set.add("Yellow");
+        System.out.println(set);
+    }
+}`},
+{task:6,title:"4. TreeSet of colors",tags:"collection treeset sorted set colors",code:`import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        TreeSet<String> colors = new TreeSet<>();
+        colors.add("Red");
+        colors.add("Blue");
+        colors.add("Green");
+        System.out.println(colors);
+    }
+}`},
+{task:6,title:"5. PriorityQueue of colors",tags:"collection priorityqueue queue poll colors",code:`import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        PriorityQueue<String> q = new PriorityQueue<>();
+        q.add("Red");
+        q.add("Blue");
+        q.add("Green");
+
+        while (!q.isEmpty())
+            System.out.println(q.poll());
+    }
+}`}
+];
+
+const taskNames = {
+  1:"Basics of Java",
+  2:"OOP Concepts",
+  3:"Enums and Strings",
+  4:"Exception Handling",
+  5:"Multithreading",
+  6:"Collections"
+};
+
+const search = document.getElementById("search");
+const sort = document.getElementById("sort");
+const filters = document.getElementById("filters");
+const results = document.getElementById("results");
+const count = document.getElementById("count");
+let selectedTask = 0;
+
+function makeFilters() {
+  filters.replaceChildren();
+  [[0,"All tasks"], ...Object.entries(taskNames).map(([n,name])=>[Number(n),`Task ${n}: ${name}`])].forEach(([id,label]) => {
+    const b = document.createElement("button");
+    b.textContent = label;
+    b.className = selectedTask === id ? "active" : "";
+    b.setAttribute("aria-pressed",String(selectedTask === id));
+    b.addEventListener("click",() => {
+      selectedTask = id;
+      makeFilters();
+      render();
+    });
+    filters.appendChild(b);
+  });
+}
+
+function render() {
+  const q = search.value.trim().toLowerCase();
+  let list = programs.filter(p =>
+    (!selectedTask || p.task === selectedTask) &&
+    (p.title + " " + p.tags + " " + p.code + " " + taskNames[p.task])
+      .toLowerCase().includes(q)
+  );
+
+  if (sort.value === "az")
+    list.sort((a,b)=>a.title.localeCompare(b.title));
+  else if (sort.value === "task")
+    list.sort((a,b)=>a.task-b.task || a.title.localeCompare(b.title));
+
+  results.replaceChildren();
+  count.textContent = `${list.length} program${list.length===1?"":"s"} found`;
+
+  if (!list.length) {
+    const empty = document.createElement("div");
+    empty.className = "empty";
+    empty.textContent = "No programs found. Try another keyword or task.";
+    results.appendChild(empty);
+    return;
+  }
+
+  list.forEach(p => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const top = document.createElement("div");
+    top.className = "cardtop";
+
+    const info = document.createElement("div");
+    const title = document.createElement("h2");
+    title.textContent = p.title;
+    const tag = document.createElement("div");
+    tag.className = "tag";
+    tag.textContent = `Task ${p.task} · ${taskNames[p.task]}`;
+    info.append(title,tag);
+
+    const copy = document.createElement("button");
+    copy.className = "copy";
+    copy.textContent = "Copy code";
+    copy.addEventListener("click",async () => {
+      try {
+        await navigator.clipboard.writeText(p.code);
+        copy.textContent = "Copied!";
+        setTimeout(()=>copy.textContent="Copy code",1500);
+      } catch {
+        const area = document.createElement("textarea");
+        area.value = p.code;
+        area.style.position = "fixed";
+        area.style.opacity = "0";
+        document.body.appendChild(area);
+        area.select();
+        const ok = document.execCommand("copy");
+        area.remove();
+        copy.textContent = ok ? "Copied!" : "Select code to copy";
+        setTimeout(()=>copy.textContent="Copy code",1800);
+      }
+    });
+
+    const pre = document.createElement("pre");
+    const code = document.createElement("code");
+    code.textContent = p.code;
+    pre.appendChild(code);
+    top.append(info,copy);
+    card.append(top,pre);
+    results.appendChild(card);
+  });
+}
+
+search.addEventListener("input",render);
+sort.addEventListener("change",render);
+makeFilters();
+render();
+</script>
+</body>
+</html>
